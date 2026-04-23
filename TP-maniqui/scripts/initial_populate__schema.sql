@@ -7,17 +7,22 @@ INSERT INTO Cat_Estilos (nombre) VALUES ('Realista'), ('Abstracto'), ('Vintage')
 
 INSERT INTO Cat_TiposCuerpo (nombre) VALUES ('Entero'), ('Busto'), ('Torso');
 
-INSERT INTO Cat_TiposParte (nombre) VALUES 
-('Cabeza'), ('Torso'), ('Brazo Derecho'), ('Brazo Izquierdo'), ('Pierna Derecha'), ('Pierna Izquierda');
+INSERT INTO Cat_TiposParte (nombre, codigo) VALUES 
+('Cabeza', 'CAB'), 
+('Torso', 'TOR'), 
+('Brazo Derecho', 'BRA-D'), 
+('Brazo Izquierdo', 'BRA-I'), 
+('Pierna Derecha', 'PIE-D'), 
+('Pierna Izquierda', 'PIE-I');
 
 INSERT INTO Cat_TonosAcabado (nombre, acabado) VALUES 
 ('Blanco Nieve', 'Mate'), 
 ('Negro Piano', 'Brillante'), 
 ('Piel Clara', 'Satinado');
 
-INSERT INTO Origenes_Piezas (nombre, tipo) VALUES 
-('Planta Principal', 'Produccion Interna'),
-('Proveedor Externo A', 'Proveedor Externo');
+INSERT INTO Origenes_Piezas (nombre, codigo, tipo) VALUES 
+('Planta Principal', 'INT', 'Produccion Interna'),
+('Proveedor Externo A', 'EXT-A', 'Proveedor Externo');
 
 -- =============================================================================
 -- 2. Creación de un Modelo (El "Molde")
@@ -32,11 +37,10 @@ INSERT INTO Maniquies (numero_serie, modelo_id, fecha_ensamblaje, numero_lote, s
 VALUES ('MQ-2026-001', 1, NOW(), 'LOTE-APR-26', 'Disponible');
 
 -- =============================================================================
--- 4. Registro de Piezas y su vinculación al Maniquí
+-- 4. Registro de Piezas (El serial_parte se genera automáticamente por el trigger)
 -- =============================================================================
--- Aquí usamos el ID 1 que es el Maniquí que acabamos de crear
-INSERT INTO Piezas (serial_parte, tipo_parte_id, modelo_id, origen_id, tono_acabado_id, maniqui_id)
+INSERT INTO Piezas (tipo_parte_id, modelo_id, origen_id, tono_acabado_id, maniqui_id)
 VALUES 
-('PZ-CAB-001', 1, 1, 1, 1, 1), -- Cabeza vinculada al maniquí 1
-('PZ-TOR-001', 2, 1, 1, 1, 1), -- Torso vinculado al maniquí 1
-('PZ-BD-001', 3, 1, 2, 1, NULL); -- Brazo Derecho SUELTO (en stock, maniqui_id es NULL)
+(1, 1, 1, 1, 1), -- Cabeza vinculada al maniquí 1
+(2, 1, 1, 1, 1), -- Torso vinculado al maniquí 1
+(3, 1, 2, 1, NULL); -- Brazo Derecho SUELTO (en stock)

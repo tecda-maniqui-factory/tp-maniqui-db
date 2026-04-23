@@ -1,62 +1,63 @@
 -- =============================================================================
--- TECDA MANIQUÍ - Automatización con Triggers (Nivel Avanzado)
--- Descripción: Generador automático de Seriales Inteligentes para Piezas.
+-- TECDA MANIQUÍ - Automatización con Triggers (Nivel Profesional)
+-- Descripción: Generador de Seriales de alta concurrencia y validador de ensamblaje.
 -- =============================================================================
 
 USE tecda_maniqui;
 
--- IMPORTANTE: Cambiamos el delimitador a // para que MariaDB no crea que el 
--- trigger termina en el primer ";" que encuentre dentro del código.
 DELIMITER //
 
--- Borramos el trigger si ya existe para evitar errores al re-ejecutar el script
+-- 1. TRIGGER: Generación de Serial de Pieza
+-- Optimizado para evitar duplicados en entornos multi-usuario usando una tabla de secuencias.
+-- =============================================================================
 DROP TRIGGER IF EXISTS tg_generar_serial_pieza //
 
--- Creamos el Trigger: Se ejecuta ANTES (BEFORE) de que se inserte la fila
 CREATE TRIGGER tg_generar_serial_pieza
 BEFORE INSERT ON Piezas
 FOR EACH ROW
 BEGIN
-    -- 1. DECLARE: Creamos variables temporales para guardar los códigos
     DECLARE cod_tipo VARCHAR(10);
     DECLARE cod_fab  VARCHAR(10);
-    DECLARE siguiente_num INT;
+    DECLARE nuevo_valor INT;
 
-    -- 2. Buscamos el código del tipo de parte (ej: 'BRA-D') usando el ID que viene en el INSERT
-    -- NEW representa los datos que estás enviando en tu comando INSERT
-    SELECT codigo INTO cod_tipo 
-    FROM Cat_TiposParte 
-    WHERE id = NEW.tipo_parte_id;
+    -- A. Obtenemos códigos base
+    SELECT codigo INTO cod_tipo FROM Cat_TiposParte WHERE id = NEW.tipo_parte_id;
+    SELECT codigo INTO cod_fab  FROM Origenes_Piezas WHERE id = NEW.origen_id;
 
-    -- 3. Buscamos el código del fabricante (ej: 'INT')
-    SELECT codigo INTO cod_fab 
-    FROM Fabricantes 
-    WHERE id = NEW.fabricante_id;
+    -- B. Actualizamos el contador de forma atómica (Evita duplicados)
+    INSERT INTO sistema_secuencias (tipo_parte_id, ultimo_numero)
+    VALUES (NEW.tipo_parte_id, 1)
+    ON DUPLICATE KEY UPDATE ultimo_numero = LAST_INSERT_ID(ultimo_numero + 1);
 
-    -- 4. Cálculo del número secuencial:
-    -- Contamos cuántas piezas existen ya con ese mismo tipo y fabricante
-    SELECT COUNT(*) + 1 INTO siguiente_num 
-    FROM Piezas 
-    WHERE tipo_parte_id = NEW.tipo_parte_id 
-      AND fabricante_id = NEW.fabricante_id;
+    SET nuevo_valor = LAST_INSERT_ID();
 
-    -- 5. CONSTRUCCIÓN DEL SERIAL FINAL:
-    -- Concatenamos las partes y usamos LPAD para que el número sea '001', '002', etc.
-    -- El resultado se guarda automáticamente en la columna serial_parte de la fila NEW
-    SET NEW.serial_parte = CONCAT('PZ-', cod_tipo, '-', cod_fab, '-', LPAD(siguiente_num, 3, '0'));
-END;
-//
+    -- C. Asignamos el serial final (Ej: PZ-CAB-INT-0001)
+    SET NEW.serial_parte = CONCAT('PZ-', cod_tipo, '-', cod_fab, '-', LPAD(nuevo_valor, 4, '0'));
+END //
 
--- Volvemos al delimitador estándar ";"
+-- 2. TRIGGER: Validar Modelo en Ensamblaje (Anti-Frankenstein)
+-- Evita que se asigne una pieza de un modelo a un maniquí de otro modelo.
+-- =============================================================================
+DROP TRIGGER IF EXISTS tg_validar_modelo_ensamblaje //
+
+CREATE TRIGGER tg_validar_modelo_ensamblaje
+BEFORE UPDATE ON Piezas
+FOR EACH ROW
+BEGIN
+    DECLARE v_modelo_maniqui INT;
+
+    -- Solo validamos si estamos intentando ensamblar (asignar maniqui_id)
+    IF (NEW.maniqui_id IS NOT NULL AND (OLD.maniqui_id IS NULL OR NEW.maniqui_id <> OLD.maniqui_id)) THEN
+        
+        -- Buscamos a qué modelo pertenece el maniquí
+        SELECT modelo_id INTO v_modelo_maniqui FROM Maniquies WHERE id = NEW.maniqui_id;
+
+        -- Si el modelo de la pieza no coincide con el del maniquí, lanzamos error
+        IF (NEW.modelo_id <> v_modelo_maniqui) THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'ERROR: Incompatibilidad. La pieza no pertenece al mismo modelo que el maniquí.';
+        END IF;
+    END IF;
+END //
+
 DELIMITER ;
-
--- =============================================================================
--- EJEMPLO DE USO (Para tu aprendizaje):
--- =============================================================================
--- Una vez ejecutado este script, puedes insertar una pieza SIN el serial_parte:
--- 
--- INSERT INTO Piezas (tipo_parte_id, modelo_id, fabricante_id, tono_id, costo) 
--- VALUES (3, 1, 1, 3, 25.50);
---
--- MariaDB ejecutará el trigger y guardará algo como: 'PZ-BRA-D-INT-001'
--- =============================================================================

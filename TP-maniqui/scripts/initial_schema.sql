@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS Cat_TiposCuerpo (
 
 CREATE TABLE IF NOT EXISTS Cat_TiposParte (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL UNIQUE
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    codigo VARCHAR(10) NOT NULL UNIQUE COMMENT 'Ej: CAB, TOR, BRA-D'
 ) ENGINE=InnoDB;
 
 -- CORRECCIÓN: acabado NOT NULL para evitar duplicados ambiguos en el UNIQUE
@@ -42,7 +43,15 @@ CREATE TABLE IF NOT EXISTS Cat_TonosAcabado (
 CREATE TABLE IF NOT EXISTS Origenes_Piezas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
+    codigo VARCHAR(10) NOT NULL UNIQUE COMMENT 'Ej: INT, EXT-01',
     tipo ENUM('Produccion Interna', 'Proveedor Externo') DEFAULT 'Produccion Interna'
+) ENGINE=InnoDB;
+
+-- TABLA DE SECUENCIAS: Para generar seriales sin colisiones
+CREATE TABLE IF NOT EXISTS sistema_secuencias (
+    tipo_parte_id INT PRIMARY KEY,
+    ultimo_numero INT DEFAULT 0,
+    FOREIGN KEY (tipo_parte_id) REFERENCES Cat_TiposParte(id)
 ) ENGINE=InnoDB;
 
 -- 2. Main Templates (Models)
