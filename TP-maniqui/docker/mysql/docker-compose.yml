@@ -1,0 +1,18 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: tecda-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gestion_bbdd
+      MYSQL_USER: alumno
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - tecda_mysql_data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf
+
+volumes:
+  tecda_mysql_data:

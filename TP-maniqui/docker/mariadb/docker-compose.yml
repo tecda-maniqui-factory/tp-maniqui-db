@@ -1,0 +1,18 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: tecda-mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: gestion_bbdd
+      MARIADB_USER: alumno
+      MARIADB_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - tecda_mariadb_data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+
+volumes:
+  tecda_mariadb_data:

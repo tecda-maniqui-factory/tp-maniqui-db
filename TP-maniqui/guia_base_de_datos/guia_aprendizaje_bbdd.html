@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Aprendizaje BBDD - TECDA Maniquí</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --bg: #f8f9fa;
+            --text: #333;
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        h1 { margin: 0 0 10px 0; }
+        .concept-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+        .concept-title {
+            color: var(--primary);
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 10px;
+        }
+        .file-badge {
+            background: var(--accent);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-family: monospace;
+        }
+        .qa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .qa-item {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 6px;
+        }
+        .qa-item h4 {
+            color: var(--secondary);
+            margin-top: 0;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+        .qa-item p { margin: 0; font-size: 0.95em; }
+        .learning-outcome {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-left: 4px solid #2980b9;
+        }
+        .learning-outcome h4 { margin-top: 0; color: #2980b9; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Guía de Aprendizaje BBDD Avanzada</h1>
+        <p>Proyecto: Sistema de Gestión TECDA Maniquí | Nivel: Intermedio/Avanzado</p>
+    </header>
+
+    <!-- Modificación de Esquema -->
+    <div class="concept-card">
+        <h2 class="concept-title">
+            1. Modificación Estructural (DDL)
+            <span class="file-badge">actualizacion_esquema.sql</span>
+        </h2>
+        <div class="qa-grid">
+            <div class="qa-item"><h4>¿Por qué?</h4><p>Los requerimientos del negocio cambian (ej. agregar costos). La base de datos debe evolucionar sin perder la información ya existente.</p></div>
+            <div class="qa-item"><h4>¿Cómo?</h4><p>Usando comandos `ALTER TABLE` para agregar columnas, `RENAME` para renombrar tablas y `CHANGE` para modificar tipos de datos.</p></div>
+            <div class="qa-item"><h4>¿Cuándo?</h4><p>Durante actualizaciones de versión del software o cuando surgen nuevas necesidades comerciales (ej. control de márgenes de ganancia).</p></div>
+            <div class="qa-item"><h4>¿Dónde?</h4><p>Directamente sobre el esquema lógico de la base de datos.</p></div>
+            <div class="qa-item"><h4>¿Para qué?</h4><p>Para adaptar el sistema a la realidad sin tener que borrar y recrear la base de datos desde cero.</p></div>
+        </div>
+        <div class="learning-outcome">
+            <h4>🧠 Qué se aprende:</h4>
+            <p>Manejo de lenguaje de definición de datos (DDL), alteración segura de esquemas en producción y diseño incremental.</p>
+        </div>
+    </div>
+
+    <!-- Triggers -->
+    <div class="concept-card">
+        <h2 class="concept-title">
+            2. Triggers (Disparadores)
+            <span class="file-badge">trigger_serial_inteligente.sql</span>
+        </h2>
+        <div class="qa-grid">
+            <div class="qa-item"><h4>¿Por qué?</h4><p>Para garantizar que ciertas reglas de negocio (como el formato de un número de serie) se cumplan siempre, sin depender del código de la aplicación.</p></div>
+            <div class="qa-item"><h4>¿Cómo?</h4><p>Interceptando el evento `INSERT` justo antes de que ocurra (`BEFORE INSERT`), calculando el nuevo valor y asignándolo a `NEW.columna`.</p></div>
+            <div class="qa-item"><h4>¿Cuándo?</h4><p>Cada vez que se intenta guardar un nuevo registro en la tabla monitoreada.</p></div>
+            <div class="qa-item"><h4>¿Dónde?</h4><p>En el motor de la base de datos, actuando como un "guardián" invisible de la tabla.</p></div>
+            <div class="qa-item"><h4>¿Para qué?</h4><p>Para automatizar la creación de la "Nomenclatura Inteligente" y evitar errores humanos al teclear códigos.</p></div>
+        </div>
+        <div class="learning-outcome">
+            <h4>🧠 Qué se aprende:</h4>
+            <p>Lógica procedural en SQL, variables temporales (`DECLARE`), concatenación compleja, eventos DML y la integridad referencial automatizada.</p>
+        </div>
+    </div>
+
+    <!-- Vistas -->
+    <div class="concept-card">
+        <h2 class="concept-title">
+            3. Vistas (Views)
+            <span class="file-badge">vista_produccion_maniquies.sql</span>
+        </h2>
+        <div class="qa-grid">
+            <div class="qa-item"><h4>¿Por qué?</h4><p>Las consultas analíticas suelen ser muy largas y complejas (con muchos JOINs). Repetirlas es propenso a errores y difícil de mantener.</p></div>
+            <div class="qa-item"><h4>¿Cómo?</h4><p>Guardando la consulta bajo un nombre con `CREATE VIEW`, creando una "tabla virtual".</p></div>
+            <div class="qa-item"><h4>¿Cuándo?</h4><p>Cuando necesitas generar reportes, dashboards o dar acceso a datos resumidos a otros usuarios.</p></div>
+            <div class="qa-item"><h4>¿Dónde?</h4><p>En la capa de presentación de la base de datos, encapsulando la complejidad de las tablas subyacentes.</p></div>
+            <div class="qa-item"><h4>¿Para qué?</h4><p>Para tener un Panel de Control que calcule en tiempo real el costo total de producción y ganancias sin almacenar datos redundantes.</p></div>
+        </div>
+        <div class="learning-outcome">
+            <h4>🧠 Qué se aprende:</h4>
+            <p>Abstracción de datos, seguridad por ocultamiento de esquema, uso avanzado de `JOIN` y funciones de agregación (`SUM`, `GROUP BY`).</p>
+        </div>
+    </div>
+
+    <!-- Procedimientos Almacenados -->
+    <div class="concept-card">
+        <h2 class="concept-title">
+            4. Procedimientos Almacenados
+            <span class="file-badge">01_procedimientos_almacenados.sql</span>
+        </h2>
+        <div class="qa-grid">
+            <div class="qa-item"><h4>¿Por qué?</h4><p>Para agrupar múltiples pasos lógicos en una sola llamada, reduciendo el tráfico de red entre la aplicación y la base de datos.</p></div>
+            <div class="qa-item"><h4>¿Cómo?</h4><p>Usando `CREATE PROCEDURE` para definir un bloque de código SQL que acepta parámetros de entrada (`IN`).</p></div>
+            <div class="qa-item"><h4>¿Cuándo?</h4><p>Al ejecutar procesos que involucran varias tablas a la vez, como el "Ensamblaje de un Maniquí".</p></div>
+            <div class="qa-item"><h4>¿Dónde?</h4><p>Se ejecutan directamente en el servidor de base de datos (Backend profundo).</p></div>
+            <div class="qa-item"><h4>¿Para qué?</h4><p>Para centralizar la lógica de negocio. Si cambia la forma de ensamblar, solo cambias el procedimiento, no el código del sistema.</p></div>
+        </div>
+        <div class="learning-outcome">
+            <h4>🧠 Qué se aprende:</h4>
+            <p>Encapsulamiento, paso de parámetros, uso de `LAST_INSERT_ID()`, y optimización del rendimiento cliente-servidor.</p>
+        </div>
+    </div>
+
+    <!-- Transacciones -->
+    <div class="concept-card">
+        <h2 class="concept-title">
+            5. Transacciones (ACID)
+            <span class="file-badge">02_transacciones.sql</span>
+        </h2>
+        <div class="qa-grid">
+            <div class="qa-item"><h4>¿Por qué?</h4><p>Para proteger la consistencia de los datos. No quieres registrar una venta si el pago falló en el último milisegundo.</p></div>
+            <div class="qa-item"><h4>¿Cómo?</h4><p>Envolviendo las consultas entre `START TRANSACTION` y `COMMIT`. Usando `ROLLBACK` si algo sale mal.</p></div>
+            <div class="qa-item"><h4>¿Cuándo?</h4><p>En operaciones críticas que modifican varias tablas de forma interdependiente (ventas, transferencias, control de stock).</p></div>
+            <div class="qa-item"><h4>¿Dónde?</h4><p>En el control de concurrencia del motor transaccional (InnoDB en este caso).</p></div>
+            <div class="qa-item"><h4>¿Para qué?</h4><p>Para garantizar que la base de datos "o hace todo el trabajo, o no hace nada", evitando datos corruptos o a medias.</p></div>
+        </div>
+        <div class="learning-outcome">
+            <h4>🧠 Qué se aprende:</h4>
+            <p>Principios ACID (Atomicidad, Consistencia, Aislamiento, Durabilidad), manejo de excepciones (`SQLEXCEPTION`) y seguridad de datos.</p>
+        </div>
+    </div>
+
+    <!-- Índices -->
+    <div class="concept-card">
+        <h2 class="concept-title">
+            6. Índices
+            <span class="file-badge">03_indices.sql</span>
+        </h2>
+        <div class="qa-grid">
+            <div class="qa-item"><h4>¿Por qué?</h4><p>Leer una tabla de millones de registros fila por fila es ineficiente y lento.</p></div>
+            <div class="qa-item"><h4>¿Cómo?</h4><p>Creando estructuras adicionales (`CREATE INDEX`) que actúan como el índice de un libro.</p></div>
+            <div class="qa-item"><h4>¿Cuándo?</h4><p>Cuando notas que ciertas consultas (especialmente con `WHERE`, `JOIN` u `ORDER BY`) se vuelven lentas al crecer los datos.</p></div>
+            <div class="qa-item"><h4>¿Dónde?</h4><p>Son estructuras físicas guardadas en el disco junto a los datos de la tabla.</p></div>
+            <div class="qa-item"><h4>¿Para qué?</h4><p>Para que la búsqueda de un maniquí por su estado o de una pieza por su serial sea matemáticamente instantánea (complejidad O(log n)).</p></div>
+        </div>
+        <div class="learning-outcome">
+            <h4>🧠 Qué se aprende:</h4>
+            <p>Estructuras de datos en árboles B (B-Trees), optimización de lecturas vs. penalización en escrituras, y diseño de rendimiento.</p>
+        </div>
+    </div>
+
+    <!-- Funciones (UDF) -->
+    <div class="concept-card">
+        <h2 class="concept-title">
+            7. Funciones (UDF)
+            <span class="file-badge">04_funciones.sql</span>
+        </h2>
+        <div class="qa-grid">
+            <div class="qa-item"><h4>¿Por qué?</h4><p>Para evitar repetir fórmulas matemáticas o transformaciones de texto en cada consulta que escribes.</p></div>
+            <div class="qa-item"><h4>¿Cómo?</h4><p>Creando un bloque `CREATE FUNCTION` que acepta parámetros y obligatoriamente `RETURNS` (devuelve) un valor.</p></div>
+            <div class="qa-item"><h4>¿Cuándo?</h4><p>Cuando necesitas aplicar cálculos específicos (ej. descuentos, impuestos) fila por fila en un `SELECT`.</p></div>
+            <div class="qa-item"><h4>¿Dónde?</h4><p>Se integran directamente en el lenguaje de consultas del usuario.</p></div>
+            <div class="qa-item"><h4>¿Para qué?</h4><p>Para poder hacer `SELECT CalcularDescuento(precio) FROM Modelos`, manteniendo las consultas limpias y estandarizadas.</p></div>
+        </div>
+        <div class="learning-outcome">
+            <h4>🧠 Qué se aprende:</h4>
+            <p>Extensibilidad de SQL, diferencias entre Funciones (devuelven valor) y Procedimientos (ejecutan acciones), y reutilización de código.</p>
+        </div>
+    </div>
+
+    <!-- Permisos -->
+    <div class="concept-card">
+        <h2 class="concept-title">
+            8. Permisos y Usuarios
+            <span class="file-badge">05_permisos_usuarios.sql</span>
+        </h2>
+        <div class="qa-grid">
+            <div class="qa-item"><h4>¿Por qué?</h4><p>Por seguridad. El usuario que conecta tu página web no debería tener poder para borrar la base de datos completa.</p></div>
+            <div class="qa-item"><h4>¿Cómo?</h4><p>Creando usuarios (`CREATE USER`) y asignando privilegios precisos con `GRANT` o quitándolos con `REVOKE`.</p></div>
+            <div class="qa-item"><h4>¿Cuándo?</h4><p>Antes de poner el sistema en producción o al conectar diferentes aplicaciones (ej. App de Ventas vs. App de Recursos Humanos).</p></div>
+            <div class="qa-item"><h4>¿Dónde?</h4><p>En el diccionario de datos del motor de MariaDB, a nivel global o a nivel de base de datos específica.</p></div>
+            <div class="qa-item"><h4>¿Para qué?</h4><p>Para implementar el Principio de Menor Privilegio: dar solo el acceso necesario para hacer el trabajo (ej. solo `SELECT` a los vendedores).</p></div>
+        </div>
+        <div class="learning-outcome">
+            <h4>🧠 Qué se aprende:</h4>
+            <p>Administración de Servidores (DBA), control de accesos (DCL - Data Control Language) y seguridad informática.</p>
+        </div>
+    </div>
+
+</body>
+</html>
