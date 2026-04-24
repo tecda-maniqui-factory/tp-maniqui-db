@@ -2,9 +2,14 @@
 
 Este repositorio contiene el diseño, la implementación y la documentación de la base de datos para la gestión de inventario y producción de la fábrica de maniquíes **Tecda**.
 
-## 🚀 Secuencia de Ejecución
+## 🚀 Instalación Rápida (Recomendado)
 
-Para montar la base de datos completa, ejecute los scripts en la carpeta `/scripts` en el siguiente orden:
+Para montar la base de datos completa en un solo paso, ejecute el script:
+*   **`00_tecda_maniqui_completo.sql`**: Contiene el esquema, triggers, datos y vistas.
+
+## 📂 Secuencia de Ejecución Manual
+
+Si prefiere ejecutar los scripts por separado, siga este orden:
 
 1.  **`01_initial_schema.sql`**: Crea la base de datos, tablas y restricciones.
 2.  **`02_trigger_serial_inteligente.sql`**: Configura la lógica de serialización profesional y validación de ensamblaje.
