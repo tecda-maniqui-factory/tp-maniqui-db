@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS Modelos (
     detalle_boca VARCHAR(50) DEFAULT 'Estándar',
     tipo_pelo VARCHAR(50) DEFAULT 'Esculpido',
     costo_unitario DECIMAL(10,2) DEFAULT 0.00,
+    precio_venta DECIMAL(10,2) DEFAULT 0.00,
     estilo_id INT NOT NULL,
     cuerpo_id INT NOT NULL,
     rango_edad ENUM('Bebé', 'Infantil', 'Juvenil', 'Adulto') DEFAULT 'Adulto',
@@ -103,9 +104,10 @@ CREATE TABLE IF NOT EXISTS Piezas (
     tipo_parte_id INT NOT NULL,
     modelo_id INT NOT NULL,
     origen_id INT NOT NULL,
-    -- CORRECCIÓN: Nombre de columna consistente con la tabla padre
     tono_acabado_id INT NOT NULL, 
     maniqui_id INT DEFAULT NULL COMMENT 'NULL si la pieza está en stock',
+    numero_lote VARCHAR(50),
+    costo DECIMAL(10,2) DEFAULT 0.00,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     CONSTRAINT fk_pieza_tipo FOREIGN KEY (tipo_parte_id) REFERENCES Cat_TiposParte(id),
@@ -113,4 +115,37 @@ CREATE TABLE IF NOT EXISTS Piezas (
     CONSTRAINT fk_pieza_origen FOREIGN KEY (origen_id) REFERENCES Origenes_Piezas(id),
     CONSTRAINT fk_pieza_tono FOREIGN KEY (tono_acabado_id) REFERENCES Cat_TonosAcabado(id),
     CONSTRAINT fk_pieza_maniqui FOREIGN KEY (maniqui_id) REFERENCES Maniquies(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- 5. Sales System (Sistema de Ventas)
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS Clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    cuit_cuil VARCHAR(20) UNIQUE,
+    email VARCHAR(100),
+    telefono VARCHAR(20),
+    direccion TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS Ventas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    fecha_venta DATETIME DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(12,2) DEFAULT 0.00,
+    metodo_pago ENUM('Efectivo', 'Transferencia', 'Tarjeta', 'Mercado Pago', 'Cuenta Corriente', 'Otros') DEFAULT 'Transferencia',
+    
+    CONSTRAINT fk_venta_cliente FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS Detalle_Ventas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    venta_id INT NOT NULL,
+    maniqui_id INT NOT NULL UNIQUE,
+    precio_final DECIMAL(10,2),
+    
+    CONSTRAINT fk_detalle_venta FOREIGN KEY (venta_id) REFERENCES Ventas(id),
+    CONSTRAINT fk_detalle_maniqui FOREIGN KEY (maniqui_id) REFERENCES Maniquies(id)
 ) ENGINE=InnoDB;
