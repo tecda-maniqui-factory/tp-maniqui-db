@@ -1,6 +1,6 @@
 # 🖥️ Gestión de Bases de Datos — TECDA
 
-Bienvenidos al repositorio central de **Gestión de Bases de Datos** de la carrera **TECDA** (Tercer Año). Este espacio está diseñado bajo estándares profesionales de desarrollo de software para albergar los proyectos, diseños lógicos, automatización de bases de datos y configuraciones de infraestructura como código (Docker).
+Bienvenidos al repositorio central de **Gestión de Bases de Datos** de la carrera **TECDA** (Tercer Año). Este espacio está diseñado bajo estándares profesionales de desarrollo de software para albergar los proyectos, diseños lógicos, automatización de bases de datos, especificaciones de APIs y configuraciones de infraestructura como código (Docker).
 
 ---
 
@@ -13,6 +13,7 @@ El proyecto se encuentra estrictamente organizado para separar la lógica de neg
 ├── README.md              # Portal de bienvenida (este archivo)
 ├── docs/                  # Centro de Documentación Corporativa
 │   ├── README.md          # Índice general de la documentación
+│   ├── openapi.yaml       # Especificación interactiva OpenAPI 3.0 (Swagger)
 │   ├── tp-maniqui-db.md   # Diseño lógico, físico y triggers inteligentes
 │   ├── tp-maniqui-docker.md # Manual de infraestructura y contenedores Docker
 │   └── scripts-guia.md    # Guía de secuencias y despliegue de scripts SQL
@@ -34,17 +35,20 @@ Un sistema corporativo de gestión de inventario y producción para una fábrica
 *   **Automatización de Base de Datos:**
     *   **Trigger Autogenerador:** Serialización inteligente y libre de colisiones en alta concurrencia.
     *   **Trigger "Anti-Frankenstein":** Validación en base de datos para impedir el ensamblaje de piezas incompatibles entre modelos.
+*   **🔌 Especificación de API REST (OpenAPI):**
+    *   Documentación exhaustiva e interactiva basada en el estándar mundial **OpenAPI 3.0 / Swagger**.
+    *   Integración directa con la base de datos: endpoints dedicados para consultar la **Vista SQL** analítica de producción (`GET /reportes/produccion`), ejecutar **Procedimientos Almacenados** transaccionales (`POST /maniquies`) e invocar **Funciones SQL** de usuario (`GET /modelos/{id}/descuento`).
 *   **Infraestructura:** Entornos portables listos para desarrollo local sobre **MySQL** y **MariaDB** utilizando Docker Compose.
 
 ---
 
 ## 📖 Centro de Documentación Técnica
 
-Si quieres profundizar en los detalles técnicos de la implementación, despliegue o diseño de los proyectos, visita nuestro:
+Si quieres profundizar en los detalles técnicos de la implementación, despliegue, diseño o la especificación de la API del proyecto, visita nuestro:
 
 👉 **[Portal de Documentación (/docs)](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion_BBDD/docs/README.md)**
 
-*Aquí encontrarás diagramas Entidad-Relación (`mermaid.js`), manuales detallados de Docker y el orden secuencial de ejecución de los scripts de bases de datos.*
+*Aquí encontrarás la interfaz interactiva de la API, diagramas Entidad-Relación (`mermaid.js`), manuales detallados de Docker y el orden secuencial de ejecución de los scripts de bases de datos.*
 
 ---
 
@@ -53,6 +57,7 @@ Si quieres profundizar en los detalles técnicos de la implementación, desplieg
 El desarrollo de este repositorio se rige por buenas prácticas de ingeniería de software:
 
 *   **Motores de BBDD:** MySQL 8.0 y MariaDB (Motores ACID InnoDB).
+*   **Interfaces API:** OpenAPI 3.0.0 (Swagger YAML).
 *   **Virtualización:** Docker & Docker Compose.
 *   **Modelado:** MySQL Workbench (Archivos `.mwb`).
 *   **Metodología Git:** Estructuración al nivel de Organizaciones de GitHub, manteniendo una raíz limpia, un `.gitignore` optimizado y documentación centralizada.
