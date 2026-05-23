@@ -1,0 +1,18 @@
+# Logs de Bases de Datos y Docker
+*.log
+docker/mysql/data/
+docker/mariadb/data/
+
+# Archivos de Respaldo y Temporales de MySQL Workbench
+*.mwb.bak
+*.mwb.lck
+
+# Entorno de Desarrollo y Sistema
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.tmp
+
+# Archivos de configuración local sensibles
+.env
