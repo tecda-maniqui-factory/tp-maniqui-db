@@ -172,10 +172,63 @@ GROUP BY m.id;
 -- 7. PROCEDIMIENTOS (Lógica de Negocio)
 -- -----------------------------------------------------------------------------
 DELIMITER //
+
 CREATE PROCEDURE EnsamblarManiqui(IN p_modelo_id INT, IN p_num_serie VARCHAR(50))
 BEGIN
-    INSERT INTO Maniquies (numero_serie, modelo_id, fecha_ensamblaje, status)
-    VALUES (p_num_serie, p_modelo_id, NOW(), 'Disponible');
+    DECLARE v_nuevo_maniqui_id INT;
+    DECLARE v_cab_id INT;
+    DECLARE v_tor_id INT;
+    DECLARE v_bra_d_id INT;
+    DECLARE v_bra_i_id INT;
+    DECLARE v_pie_d_id INT;
+    DECLARE v_pie_i_id INT;
+
+    -- Manejador de excepciones: Si ocurre cualquier error, hace ROLLBACK
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ERROR: Falló el ensamblaje de la unidad. Lote o piezas insuficientes/incompatibles. Transacción cancelada.';
+    END;
+
+    -- Obtener dinámicamente los IDs de los tipos de piezas
+    SELECT id INTO v_cab_id FROM Cat_TiposParte WHERE codigo = 'CAB' LIMIT 1;
+    SELECT id INTO v_tor_id FROM Cat_TiposParte WHERE codigo = 'TOR' LIMIT 1;
+    SELECT id INTO v_bra_d_id FROM Cat_TiposParte WHERE codigo = 'BRA-D' LIMIT 1;
+    SELECT id INTO v_bra_i_id FROM Cat_TiposParte WHERE codigo = 'BRA-I' LIMIT 1;
+    SELECT id INTO v_pie_d_id FROM Cat_TiposParte WHERE codigo = 'PIE-D' LIMIT 1;
+    SELECT id INTO v_pie_i_id FROM Cat_TiposParte WHERE codigo = 'PIE-I' LIMIT 1;
+
+    START TRANSACTION;
+
+        -- 1. Creamos el maniquí
+        INSERT INTO Maniquies (numero_serie, modelo_id, fecha_ensamblaje, status)
+        VALUES (p_num_serie, p_modelo_id, NOW(), 'Disponible');
+
+        SET v_nuevo_maniqui_id = LAST_INSERT_ID();
+
+        -- 2. Ensamblar exactamente las piezas libres necesarias en stock para este modelo
+        UPDATE Piezas SET maniqui_id = v_nuevo_maniqui_id
+        WHERE modelo_id = p_modelo_id AND maniqui_id IS NULL AND tipo_parte_id = v_cab_id LIMIT 1;
+
+        UPDATE Piezas SET maniqui_id = v_nuevo_maniqui_id
+        WHERE modelo_id = p_modelo_id AND maniqui_id IS NULL AND tipo_parte_id = v_tor_id LIMIT 1;
+
+        UPDATE Piezas SET maniqui_id = v_nuevo_maniqui_id
+        WHERE modelo_id = p_modelo_id AND maniqui_id IS NULL AND tipo_parte_id = v_bra_d_id LIMIT 1;
+
+        UPDATE Piezas SET maniqui_id = v_nuevo_maniqui_id
+        WHERE modelo_id = p_modelo_id AND maniqui_id IS NULL AND tipo_parte_id = v_bra_i_id LIMIT 1;
+
+        UPDATE Piezas SET maniqui_id = v_nuevo_maniqui_id
+        WHERE modelo_id = p_modelo_id AND maniqui_id IS NULL AND tipo_parte_id = v_pie_d_id LIMIT 1;
+
+        UPDATE Piezas SET maniqui_id = v_nuevo_maniqui_id
+        WHERE modelo_id = p_modelo_id AND maniqui_id IS NULL AND tipo_parte_id = v_pie_i_id LIMIT 1;
+
+    COMMIT;
+
+    SELECT CONCAT('Maniquí ', p_num_serie, ' ensamblado correctamente en fábrica con ID ', v_nuevo_maniqui_id) AS Resultado;
 END;
 //
 DELIMITER ;
