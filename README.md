@@ -31,7 +31,11 @@ Para entender o replicar el proyecto, ejecuta los scripts en el siguiente orden:
 ---
 
 ## 📖 Documentación Complementaria
-Puedes encontrar guías detalladas sobre conceptos específicos en la carpeta:  
-👉 **[/guia_base_de_datos](guia_base_de_datos/)**
+
+*   **[Lógica de Negocio (DATABASE_LOGIC.md)](docs/DATABASE_LOGIC.md)**: 🧠 Explicación conceptual de Triggers, SPs y el problema "Anti-Frankenstein".
+*   **[Consigna Original (PDF)](docs/consigna_original.pdf)**: 📋 Requerimientos técnicos dictados por la cátedra.
+*   **Guías por Temas**: En la carpeta [/guia_base_de_datos](guia_base_de_datos/) encontrarás explicaciones técnicas sobre transacciones y funciones.
+
+---
 
 *Desarrollado para la materia Gestión de Bases de Datos - TECDA.*
