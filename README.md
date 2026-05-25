@@ -1,66 +1,38 @@
-# 🖥️ Gestión de Bases de Datos — TECDA
+# 🗃️ Tecda Maniquí - Catálogo y Motores (Database)
 
-Bienvenidos al repositorio central de **Gestión de Bases de Datos** de la carrera **TECDA** (Tercer Año). Este espacio está diseñado bajo estándares profesionales de desarrollo de software para albergar los proyectos, diseños lógicos, automatización de bases de datos, especificaciones de APIs y configuraciones de infraestructura como código (Docker).
+Este repositorio contiene el diseño físico y lógico, scripts de instalación y automatización de la **Base de Datos MariaDB/MySQL** para el sistema de producción de la fábrica de maniquíes **Tecda**.
 
----
-
-## 📂 Estructura del Repositorio
-
-El proyecto se encuentra estrictamente organizado para separar la lógica de negocio de la infraestructura y de la documentación técnica detallada:
-
-```
-├── .gitignore             # Exclusiones de control de versiones
-├── README.md              # Portal de bienvenida (este archivo)
-├── docs/                  # Centro de Documentación Corporativa
-│   ├── README.md          # Índice general de la documentación
-│   ├── openapi.yaml       # Especificación interactiva OpenAPI 3.0 (Swagger)
-│   ├── tp-maniqui-db.md   # Diseño lógico, físico y triggers inteligentes
-│   ├── tp-maniqui-docker.md # Manual de infraestructura y contenedores Docker
-│   └── scripts-guia.md    # Guía de secuencias y despliegue de scripts SQL
-└── TP-maniqui/            # Código fuente y recursos del TP
-    ├── diseño/            # Diagramas relacionales y análisis conceptuales
-    ├── docker/            # Archivos Docker Compose (MySQL y MariaDB)
-    ├── guia_base_de_datos/# Recursos educativos de BBDD avanzada
-    └── scripts/           # Scripts operativos SQL (DDL, DML, Triggers, Vistas)
-```
+Este proyecto forma parte de la currícula de la materia **Gestión de Bases de Datos - TERCER AÑO**.
 
 ---
 
-## 🚀 Proyectos Destacados
+## 📂 Estructura de Carpetas Sincrónica
 
-### 📂 [Trabajo Práctico: Tecda Maniquí](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion_BBDD/TP-maniqui/README.md)
-Un sistema corporativo de gestión de inventario y producción para una fábrica de maniquíes a escala industrial. 
+Este repositorio sigue una estructura simétrica de carpetas corporativa:
 
-*   **Esquema Relacional:** Capa de Catálogos, Capa de Modelos y Capa de Piezas/Stock.
-*   **Automatización de Base de Datos:**
-    *   **Trigger Autogenerador:** Serialización inteligente y libre de colisiones en alta concurrencia.
-    *   **Trigger "Anti-Frankenstein":** Validación en base de datos para impedir el ensamblaje de piezas incompatibles entre modelos.
-*   **🔌 Especificación de API REST (OpenAPI):**
-    *   Documentación exhaustiva e interactiva basada en el estándar mundial **OpenAPI 3.0 / Swagger**.
-    *   Integración directa con la base de datos: endpoints dedicados para consultar la **Vista SQL** analítica de producción (`GET /reportes/produccion`), ejecutar **Procedimientos Almacenados** transaccionales (`POST /maniquies`) e invocar **Funciones SQL** de usuario (`GET /modelos/{id}/descuento`).
-*   **Infraestructura:** Entornos portables listos para desarrollo local sobre **MySQL** y **MariaDB** utilizando Docker Compose.
-
----
-
-## 📖 Centro de Documentación Técnica
-
-Si quieres profundizar en los detalles técnicos de la implementación, despliegue, diseño o la especificación de la API del proyecto, visita nuestro:
-
-👉 **[Portal de Documentación (/docs)](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion_BBDD/docs/README.md)**
-
-*Aquí encontrarás la interfaz interactiva de la API, diagramas Entidad-Relación (`mermaid.js`), manuales detallados de Docker y el orden secuencial de ejecución de los scripts de bases de datos.*
+*   **/docs**: Centro de documentación técnica.
+    *   `README.md`: Guía de navegación de la base de datos.
+    *   `tp-maniqui-db.md`: Diseño lógico, físico y triggers.
+    *   `tp-maniqui-docker.md`: Entornos de contenedores Docker (puerto `3307`).
+    *   `scripts-guia.md`: Manual operativo de scripts SQL.
+*   **/scripts**: Scripts SQL de despliegue numerados.
+*   **/docker**: Entornos rápidos con Docker Compose.
+*   **/diseño**: Modelos gráficos `.mwb` y análisis.
+*   **/guia_base_de_datos**: Procedimientos, funciones y transacciones de aprendizaje.
 
 ---
 
-## 🛠️ Tecnologías y Estándares
+## 🚀 Guía de Inicio Rápido
 
-El desarrollo de este repositorio se rige por buenas prácticas de ingeniería de software:
+Para explorar y levantar la base de datos de manera ágil:
 
-*   **Motores de BBDD:** MySQL 8.0 y MariaDB (Motores ACID InnoDB).
-*   **Interfaces API:** OpenAPI 3.0.0 (Swagger YAML).
-*   **Virtualización:** Docker & Docker Compose.
-*   **Modelado:** MySQL Workbench (Archivos `.mwb`).
-*   **Metodología Git:** Estructuración al nivel de Organizaciones de GitHub, manteniendo una raíz limpia, un `.gitignore` optimizado y documentación centralizada.
+1.  Navega al centro de documentación técnica:
+    👉 **[docs/README.md](docs/README.md)**
+2.  Levanta el contenedor Docker e inyecta la base de datos:
+    ```bash
+    cd docker/mariadb
+    docker compose up -d
+    ```
 
 ---
-*Desarrollado y mantenido como parte de la currícula académica de TECDA.*
+*Desarrollado de forma modular e independiente bajo la organización @tecda-maniqui-factory.*

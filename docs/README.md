@@ -19,12 +19,17 @@ Para facilitar la exploración del proyecto, la documentación se divide en las 
     *   Endpoints de automatización que ejecutan **Procedimientos Almacenados** (`POST /maniquies`) e invocan **Funciones SQL** (`GET /modelos/{id}/descuento`).
     *   *Nota: Consulta abajo cómo renderizar interactivamente esta especificación.*
 
-3.  ### 🐳 [Entorno Docker y Despliegue Rápido](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion_BBDD/docs/tp-maniqui-docker.md)
+3.  ### 🧪 [Suite de Pruebas de API REST (.http)](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion_BBDD/docs/api_tests.http)
+    *   Archivo de texto plano `.http` compatible con la extensión **REST Client** de VS Code / Cursor.
+    *   Peticiones listas para interactuar con todos los endpoints de forma ágil y con un solo clic.
+    *   Casos de prueba para verificar los autogeneradores de seriales y la validación del Trigger de incompatibilidad (Anti-Frankenstein).
+
+4.  ### 🐳 [Entorno Docker y Despliegue Rápido](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion_BBDD/docs/tp-maniqui-docker.md)
     *   Configuración paso a paso de los contenedores Docker para **MySQL** y **MariaDB**.
     *   Parámetros de conexión, puertos (3306/3307), contraseñas y volúmenes persistentes.
     *   Comandos útiles para la gestión diaria de los contenedores.
 
-4.  ### 🗃️ [Guía de Scripts SQL](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion_BBDD/docs/scripts-guia.md)
+5.  ### 🗃️ [Guía de Scripts SQL](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion_BBDD/docs/scripts-guia.md)
     *   Secuencia recomendada para la ejecución manual de los scripts SQL del proyecto.
     *   Pruebas de validación de datos maestro y carga masiva.
     *   Procedimientos almacenados, funciones, índices y gestión de permisos.
