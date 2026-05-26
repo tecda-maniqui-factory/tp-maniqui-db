@@ -1,49 +1,60 @@
-# Analysis of Tecda Maniquí Database Design
+# Análisis del Diseño de Base de Datos - Tecda Maniquí v2.0.0
 
-Based on the [tecda-maniqui.pdf](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion%20BBDD/tecda-maniqui.pdf), I have designed a relational database schema that optimizes inventory tracking and production assembly.
+Este documento detalla la arquitectura evolucionada de la base de datos para la fábrica **Tecda**, diseñada para gestionar el ciclo de vida completo: desde la adquisición de piezas hasta la venta final y auditoría empresarial.
 
-## 🏗️ Schema Overview
+## 🏗️ Estructura del Esquema
 
-The design is structured into three main layers to ensure data integrity and scalability:
+El diseño se organiza en cinco capas interconectadas para garantizar integridad, seguridad y analítica avanzada:
 
-1.  **Catalog Layer**: Standardizes attributes like sexes, styles, body types, part types, and finishes.
-2.  **Model Layer**: Defines the blueprint for various mannequin models, including physical specifications and costs.
-3.  **Inventory & Production Layer**: Tracks physical units of mannequins (`Maniquies`) and their individual components (`Piezas`).
+1.  **Capa de Catálogos y Maestros**: Estandariza atributos (sexos, estilos, acabados) y orígenes de suministro.
+2.  **Capa de Producción e Inventario**: Gestiona los planos técnicos (`Modelos`), las unidades físicas (`Maniquies`) y sus componentes (`Piezas`).
+3.  **Capa de Logística y Suministros**: Controla proveedores detallados, depósitos físicos y movimientos internos de stock.
+4.  **Capa Comercial y Financiera**: Gestiona clientes, ventas con facturación electrónica (CAE), tasas de cambio (ARS/USD) y márgenes de ganancia.
+5.  **Capa de Seguridad y Auditoría**: Implementa RBAC (Control de acceso basado en roles) y registros de auditoría (`Logs`) para cada acción crítica.
 
-### 🧬 Entity-Relationship Diagram
+### 🧬 Diagrama de Entidad-Relación (Evolucionado)
 
 ```mermaid
 erDiagram
-    CAT-SEXOS ||--o{ MODELOS : "assigned to"
-    CAT-ESTILOS ||--o{ MODELOS : "style of"
-    CAT-CUERPO ||--o{ MODELOS : "body type"
+    USUARIOS ||--o{ LOGS_AUDITORIA : "genera"
+    USUARIOS ||--o{ INSPECCIONES_CALIDAD : "inspecciona"
+    USUARIOS ||--o{ MOVIMIENTOS_INTERNOS : "registra"
     
-    MODELOS ||--o{ MANIQUIES : "manufactured as"
-    MODELOS ||--o{ PIEZAS : "compatible with"
+    MODELOS ||--o{ PIEZAS : "define"
+    MODELOS ||--o{ MANIQUIES : "es_base_de"
     
-    CAT-TIPO-PARTE ||--o{ PIEZAS : "defines type"
-    ORIGENES-PIEZAS ||--o{ PIEZAS : "source of"
-    CAT-TONOS ||--o{ PIEZAS : "finish of"
+    MANIQUIES ||--o{ PIEZAS : "contiene"
+    MANIQUIES ||--o{ DETALLE_VENTAS : "se_vende_en"
+    MANIQUIES ||--o{ INSPECCIONES_CALIDAD : "evaluado"
+    MANIQUIES ||--o{ MOVIMIENTOS_INTERNOS : "ubicado_en"
+
+    DEPOSITOS ||--o{ MOVIMIENTOS_INTERNOS : "almacena"
     
-    MANIQUIES ||--o{ PIEZAS : "assembled from"
+    CLIENTES ||--o{ VENTAS : "compra"
+    VENTAS ||--o{ DETALLE_VENTAS : "incluye"
+    TASAS_CAMBIO ||--o{ VENTAS : "aplica_a"
 ```
 
-## 🛠️ Key Implementation Details
+## 🛠️ Innovaciones Técnicas v2.0.0
 
-### 1. Assembly & Stock Tracking
-The `Piezas` table includes a nullable `maniqui_id` foreign key.
-- **Available Part**: `maniqui_id IS NULL`. These parts contribute to the "Component Stock".
-- **Assembled Part**: `maniqui_id` matches a record in `Maniquies`. This part is physically attached to a unit.
+### 1. Inteligencia del Motor (Triggers)
+*   **Generador de Seriales**: Las piezas reciben un código único (`PZ-TIPO-ORIGEN-NUM`) automáticamente al insertarse.
+*   **Validación Anti-Frankenstein**: Un trigger impide físicamente ensamblar piezas de un modelo en un maniquí de modelo diferente, asegurando la integridad técnica del producto.
+*   **Auditoría Automática**: Cualquier cambio en precios de venta dispara un log de auditoría sin intervención del programador.
 
-### 2. Production Capacity
-By querying `Piezas` where `maniqui_id IS NULL` and grouping by `modelo_id` and `tipo_parte_id`, the system can calculate how many complete units of a specific `Modelo` can be assembled from current stock.
+### 2. Capa Analítica y Financiera
+*   **Vista de Rentabilidad**: Calcula dinámicamente el margen de ganancia real (`Precio Venta - Suma de Costos de Piezas`) por cada unidad vendida.
+*   **Vista de Stock Crítico**: Detecta automáticamente cuellos de botella en la producción cuando un componente específico baja de un umbral mínimo.
+*   **Soporte Multimoneda**: Permite operar en Pesos y Dólares mediante una tabla de tasas de cambio vinculada a las ventas.
 
-### 3. Traceability
-- **`numero_serie`**: Unique identifier for every assembled mannequin.
-- **`serial_parte`**: Unique identifier for every individual part (head, torso, etc.), allowing tracking from source (`Origenes_Piezas`) to final unit.
+### 3. Trazabilidad y Calidad (QA)
+*   **Inspecciones**: Antes de pasar a estado 'Disponible', cada maniquí requiere un registro de inspección de calidad aprobado por un inspector.
+*   **Logística Interna**: Se rastrea el movimiento físico entre la planta, depósitos y showrooms mediante la tabla de `Movimientos_Internos`.
 
-## 🗃️ Generated Files
-- [schema.sql](file:///home/jmro/Documentos/TECDA/TERCERO/Gestion%20BBDD/schema.sql): Complete DDL script with initial data seeding.
+## 🗃️ Scripts de Implementación
+El sistema se despliega de forma modular para facilitar auditorías de código:
+- **[main_setup.sql](../scripts/main_setup.sql)**: Orquestador de instalación total.
+- **Módulos**: Del `step1` (Esquema) al `step7` (Calidad y Configuración).
 
-> [!TIP]
-> Use the `fecha_ensamblaje` in the `Maniquies` table to track production speed and bottlenecks in the factory.
+> [!IMPORTANT]
+> La tabla `Configuracion_Sistema` permite ajustar parámetros globales (IVA, Stock Mínimo) de forma externa, desacoplando la lógica de negocio del código fuente.
