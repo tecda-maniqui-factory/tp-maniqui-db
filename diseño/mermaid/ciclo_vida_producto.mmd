@@ -1,0 +1,21 @@
+stateDiagram-v2
+    [*] --> Produccion: Diseño de Modelo
+    Produccion --> Stock: Fabricación de Pieza
+    Stock --> Ensamblaje: Procedimiento de Armado
+    
+    state Ensamblaje {
+        [*] --> ValidandoModelos
+        ValidandoModelos --> Error: Modelos distintos
+        ValidandoModelos --> Exito: Mismodiseño
+    }
+    
+    Exito --> Calidad: Maniquí Armado
+    
+    state Calidad {
+        [*] --> Inspeccionando
+        Inspeccionando --> Disponible: Aprobado
+        Inspeccionando --> Dañado: Rechazado
+    }
+    
+    Disponible --> Vendido: Venta Registrada
+    Vendido --> [*]: Entrega a Cliente

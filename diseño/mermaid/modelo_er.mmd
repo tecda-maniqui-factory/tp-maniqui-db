@@ -1,0 +1,36 @@
+erDiagram
+    %% Capa de Catálogos
+    CAT_TIPOS_PARTE ||--o{ PIEZAS : "clasifica"
+    CAT_SEXOS ||--o{ MODELOS : "asigna"
+    ORIGENES_PIEZAS ||--o{ PIEZAS : "suministra"
+    
+    %% Capa de Producción
+    MODELOS ||--o{ PIEZAS : "define_componentes"
+    MODELOS ||--o{ MANIQUIES : "es_la_plantilla"
+    MANIQUIES ||--o{ PIEZAS : "contiene (1:6)"
+    
+    %% Capa Comercial
+    CLIENTES ||--o{ VENTAS : "realiza"
+    VENTAS ||--o{ DETALLE_VENTAS : "registra_items"
+    MANIQUIES ||--o{ DETALLE_VENTAS : "se_convierte_en_producto"
+
+    MODELOS {
+        int id PK
+        string nombre
+        decimal costo_unitario
+        decimal precio_venta
+    }
+
+    PIEZAS {
+        int id PK
+        string serial_parte UK
+        int modelo_id FK
+        int maniqui_id FK
+    }
+
+    MANIQUIES {
+        int id PK
+        string numero_serie UK
+        int modelo_id FK
+        enum status
+    }

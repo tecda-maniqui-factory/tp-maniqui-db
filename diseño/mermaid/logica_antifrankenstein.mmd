@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant O as Operario
+    participant DB as Base de Datos (Trigger)
+    participant M as Tabla Maniquíes
+    participant P as Tabla Piezas
+
+    O->>P: Intenta asignar Pieza al Maniquí
+    Note over DB: Se dispara TRIGGER de Validación
+    DB->>M: Consulta Modelo del Maniquí
+    DB->>P: Consulta Modelo de la Pieza
+    
+    alt Modelos NO coinciden
+        DB-->>O: 🚫 ERROR: Modelos incompatibles
+        Note right of DB: ROLLBACK
+    else Modelos Coinciden
+        DB->>P: ✅ Vincula Pieza y cambia estado
+        DB-->>O: Operación Exitosa
+    end
