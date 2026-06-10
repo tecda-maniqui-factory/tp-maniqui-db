@@ -13,6 +13,8 @@ services:
     volumes:
       - tecda_mariadb_data:/var/lib/mysql
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ../../scripts:/docker-entrypoint-initdb.d/scripts
+      - ./init_loader.sql:/docker-entrypoint-initdb.d/init_loader.sql
 
 volumes:
   tecda_mariadb_data:

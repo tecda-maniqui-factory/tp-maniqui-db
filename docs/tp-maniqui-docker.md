@@ -34,6 +34,18 @@ Ambas bases de datos se inicializan con los mismos parámetros de acceso por def
     *   *Usuario:* `alumno`
     *   *Contraseña:* `password`
 
+### 👥 Usuarios de Prueba (Aplicación)
+Todos los usuarios de la aplicación utilizan la contraseña: **`tecda2026`**
+
+| Usuario | Rol | Descripción |
+| :--- | :--- | :--- |
+| `admin_pablo` | `gerente_prod` | Administrador total del sistema. |
+| `ventas_ana` | `vendedor` | Gestión comercial y clientes. |
+| `vendedor_test` | `vendedor` | Cuenta para pruebas automatizadas. |
+| `gerente_test` | `gerente_prod` | Cuenta para pruebas automatizadas. |
+| `vendedor_1` | `vendedor` | Usuario genérico de ventas. |
+| `gerente_1` | `gerente_prod` | Usuario genérico de gerencia. |
+
 ---
 
 ## 🚀 3. Guía de Inicio Rápido
