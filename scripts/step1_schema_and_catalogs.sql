@@ -23,6 +23,14 @@ CREATE TABLE Modelos (
     CONSTRAINT fk_modelo_sexo FOREIGN KEY (sexo_id) REFERENCES Cat_Sexos(id), CONSTRAINT fk_modelo_estilo FOREIGN KEY (estilo_id) REFERENCES Cat_Estilos(id), CONSTRAINT fk_modelo_cuerpo FOREIGN KEY (cuerpo_id) REFERENCES Cat_TiposCuerpo(id)
 );
 
+CREATE TABLE Modelos_Recetas (
+    modelo_id INT NOT NULL,
+    tipo_parte_id INT NOT NULL,
+    PRIMARY KEY (modelo_id, tipo_parte_id),
+    CONSTRAINT fk_receta_modelo FOREIGN KEY (modelo_id) REFERENCES Modelos(id) ON DELETE CASCADE,
+    CONSTRAINT fk_receta_tipo_parte FOREIGN KEY (tipo_parte_id) REFERENCES Cat_TiposParte(id)
+);
+
 CREATE TABLE Maniquies (
     id INT AUTO_INCREMENT PRIMARY KEY, numero_serie VARCHAR(50) NOT NULL UNIQUE, modelo_id INT NOT NULL, fecha_ensamblaje DATETIME, numero_lote VARCHAR(50),
     status ENUM('En Producción', 'Disponible', 'Vendido', 'Dañado') DEFAULT 'Disponible',
