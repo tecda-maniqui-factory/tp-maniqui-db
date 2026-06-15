@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Usuarios (
     password_hash VARCHAR(255) NOT NULL, -- Guardaremos hashes, nunca texto plano
     nombre_completo VARCHAR(100),
     email VARCHAR(100) UNIQUE,
-    rol ENUM('vendedor', 'gerente_prod') DEFAULT 'vendedor',
+    rol ENUM('vendedor', 'gerente_prod', 'operario') DEFAULT 'vendedor',
     activo TINYINT(1) DEFAULT 1,
     last_login DATETIME,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -29,7 +29,10 @@ INSERT IGNORE INTO Usuarios (username, password_hash, nombre_completo, email, ro
 ('vendedor_test', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Usuario Test Vendedor', 'vendedor_test@tecda.com', 'vendedor'),
 ('gerente_test', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Usuario Test Gerente', 'gerente_test@tecda.com', 'gerente_prod'),
 ('vendedor_1', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Vendedor Junior 1', 'vendedor1@tecda.com', 'vendedor'),
-('gerente_1', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Gerente Planta 1', 'gerente1@tecda.com', 'gerente_prod');
+('gerente_1', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Gerente Planta 1', 'gerente1@tecda.com', 'gerente_prod'),
+('gerente', '$2b$10$bLr96VfPwttBRohtEmh9Te4NqYK3gfl1E7L3zeKYrImLU7ruWVbka', 'Gerente Simplificado', 'gerente@tecda.com', 'gerente_prod'),
+('vendedor', '$2b$10$ONw/7rrdJL9/bq2xK6WEXufWxuTlswPanrY.onp1BWS07cGtaS4RO', 'Vendedor Simplificado', 'vendedor@tecda.com', 'vendedor'),
+('operario', '$2b$10$JmPhykJ8G6l37DQnDGIcf.Hg9/mM6ZeMdrSI5cV3yN19kO.3mPcxG', 'Operario Simplificado', 'operario@tecda.com', 'operario');
 
 -- 4. Usuario Técnico para el Backend
 -- Este es el único usuario que el Backend usará para conectarse a la DB.
