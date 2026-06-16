@@ -1,0 +1,8 @@
+{
+  "name": "tp-maniqui-db",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo 'No database tests configured' && exit 0"
+  }
+}

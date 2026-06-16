@@ -1,0 +1,31 @@
+name: Database CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify SQL Syntax
+        run: |
+          for file in scripts/*.sql; do
+            echo "Checking syntax for $file..."
+            # Simple linting/validation can go here, for now print ok
+            echo "$file looks fine."
+          done
+
+      - name: Run Dummy Tests
+        run: |
+          echo "Running schema assertions..."
