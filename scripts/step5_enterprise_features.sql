@@ -47,7 +47,8 @@ SELECT
     tp.nombre AS tipo_parte,
     COUNT(p.id) AS cantidad_disponible
 FROM Modelos mld
-CROSS JOIN Cat_TiposParte tp
+JOIN Modelos_Recetas mr ON mr.modelo_id = mld.id
+JOIN Cat_TiposParte tp ON tp.id = mr.tipo_parte_id
 LEFT JOIN Piezas p ON p.modelo_id = mld.id AND p.tipo_parte_id = tp.id AND p.maniqui_id IS NULL
 GROUP BY mld.id, tp.id
 HAVING cantidad_disponible < 5;
