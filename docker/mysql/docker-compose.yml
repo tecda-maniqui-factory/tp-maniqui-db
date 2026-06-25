@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: gestion_bbdd
+      MYSQL_DATABASE: tecda_maniqui
       MYSQL_USER: alumno
       MYSQL_PASSWORD: password
     ports:

@@ -21,7 +21,7 @@ Ambas bases de datos se inicializan con los mismos parámetros de acceso por def
 
 *   **Host:** `localhost` (o `127.0.0.1`)
 *   **Puerto de Conexión:** `3307`
-*   **Nombre BBDD:** `tecda_maniqui` *(Nota: Docker Compose crea `gestion_bbdd` por defecto, pero los scripts SQL estructuran y cargan la aplicación bajo la base de datos `tecda_maniqui`)*
+*   **Nombre BBDD:** `tecda_maniqui`
 *   **Usuario Administrador (Root):**
     *   *Usuario:* `root`
     *   *Contraseña:* `root`
