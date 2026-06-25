@@ -21,13 +21,14 @@ Ambas bases de datos se inicializan con los mismos parámetros de acceso por def
 
 *   **Host:** `localhost` (o `127.0.0.1`)
 *   **Puerto de Conexión:** `3307`
-*   **Nombre BBDD:** `gestion_bbdd`
+*   **Nombre BBDD:** `tecda_maniqui` *(Nota: Docker Compose crea `gestion_bbdd` por defecto, pero los scripts SQL estructuran y cargan la aplicación bajo la base de datos `tecda_maniqui`)*
 *   **Usuario Administrador (Root):**
     *   *Usuario:* `root`
     *   *Contraseña:* `root`
 *   **Usuario de Aplicación (Alumno):**
     *   *Usuario:* `alumno`
     *   *Contraseña:* `password`
+    *   *Nota:* Para consultas directas sobre la base de datos de la aplicación (`tecda_maniqui`), se debe utilizar el usuario `root` ya que posee permisos globales.
 
 ### 👥 Usuarios de Prueba (Aplicación)
 Todos los usuarios de la aplicación simplificados (`gerente`, `vendedor`, `operario`) utilizan su nombre de usuario como contraseña. Las cuentas heredadas utilizan la contraseña: **`tecda2026`**.
@@ -92,11 +93,11 @@ Puedes ingresar a la terminal interactiva del motor directamente mediante Docker
 
 *   **Para MySQL:**
     ```bash
-    docker exec -it tecda-mysql mysql -u alumno -ppassword gestion_bbdd
+    docker exec -it tecda-mysql mysql -u root -proot tecda_maniqui
     ```
 *   **Para MariaDB:**
     ```bash
-    docker exec -it tecda-mariadb mariadb -u alumno -ppassword gestion_bbdd
+    docker exec -it tecda-mariadb mariadb -u root -proot tecda_maniqui
     ```
 
 ### Monitoreo de Logs en Vivo
