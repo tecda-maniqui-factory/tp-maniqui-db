@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS Usuarios (
 -- 3. Seed de Usuarios (Password de ejemplo: 'tecda2026')
 -- En producción, estas contraseñas deben ser hasheadas con bcrypt.
 INSERT IGNORE INTO Usuarios (username, password_hash, nombre_completo, email, rol) VALUES 
-('admin_pablo', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Pablo Administrador', 'admin@tecda.com', 'gerente_prod'),
 ('ventas_ana', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Ana Vendedora', 'ana@tecda.com', 'vendedor'),
 ('vendedor_test', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Usuario Test Vendedor', 'vendedor_test@tecda.com', 'vendedor'),
 ('gerente_test', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Usuario Test Gerente', 'gerente_test@tecda.com', 'gerente_prod'),

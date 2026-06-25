@@ -35,11 +35,11 @@ Ambas bases de datos se inicializan con los mismos parámetros de acceso por def
     *   *Contraseña:* `password`
 
 ### 👥 Usuarios de Prueba (Aplicación)
-Todos los usuarios de la aplicación utilizan la contraseña: **`tecda2026`**
+Todos los usuarios de la aplicación simplificados (`gerente`, `vendedor`, `operario`) utilizan su nombre de usuario como contraseña. Las cuentas heredadas utilizan la contraseña: **`tecda2026`**.
 
 | Usuario | Rol | Descripción |
 | :--- | :--- | :--- |
-| `admin_pablo` | `gerente_prod` | Administrador total del sistema. |
+| `gerente` | `gerente_prod` | Administrador total del sistema. |
 | `ventas_ana` | `vendedor` | Gestión comercial y clientes. |
 | `vendedor_test` | `vendedor` | Cuenta para pruebas automatizadas. |
 | `gerente_test` | `gerente_prod` | Cuenta para pruebas automatizadas. |
