@@ -13,11 +13,6 @@ El proyecto cuenta con dos configuraciones independientes ubicadas en la carpeta
 | **MariaDB** | `docker/mariadb/` | `3307` *(Reconfigurado)* | `tecda-mariadb` | `mariadb:latest` |
 | **MySQL** | `docker/mysql/` | `3307` | `tecda-mysql` | `mysql:8.0` |
 
-> [!WARNING]
-> **Resolución de Conflictos de Puerto:**
-> Originalmente MariaDB mapeaba al puerto estándar `3306`. Sin embargo, dado que en tu sistema este puerto suele estar ocupado por otros servicios de base de datos activos (como `secretary-db-dev`), **el contenedor de MariaDB ha sido reconfigurado para exponerse en el puerto externo `3307`**. 
-> Asegúrate de **levantar solo uno de los dos entornos a la vez** (MariaDB o MySQL) ya que ambos comparten el mapeo de host `3307`.
-
 ---
 
 ## ⚙️ 2. Credenciales y Conexión
