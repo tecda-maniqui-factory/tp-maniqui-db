@@ -31,18 +31,13 @@ Ambas bases de datos se inicializan con los mismos parámetros de acceso por def
     *   *Nota:* Para consultas directas sobre la base de datos de la aplicación (`tecda_maniqui`), se debe utilizar el usuario `root` ya que posee permisos globales.
 
 ### 👥 Usuarios de Prueba (Aplicación)
-Todos los usuarios de la aplicación simplificados (`gerente`, `vendedor`, `operario`) utilizan su nombre de usuario como contraseña. Las cuentas heredadas utilizan la contraseña: **`tecda2026`**.
+Todos los usuarios de la aplicación (`gerente`, `vendedor`, `operario`) utilizan su nombre de usuario como contraseña.
 
 | Usuario | Rol | Contraseña | Descripción |
 | :--- | :--- | :--- | :--- |
-| `gerente` | `gerente_prod` | `gerente` | Gerente de producción simplificado (Admin). |
-| `vendedor` | `vendedor` | `vendedor` | Vendedor simplificado. |
-| `operario` | `operario` | `operario` | Operario de planta simplificado. |
-| `ventas_ana` | `vendedor` | `tecda2026` | Cuenta comercial de Ana Vendedora. |
-| `vendedor_1` | `vendedor` | `tecda2026` | Usuario genérico de ventas. |
-| `gerente_1` | `gerente_prod` | `tecda2026` | Usuario genérico de gerencia. |
-| `vendedor_test` | `vendedor` | `tecda2026` / `password123` | Cuenta para pruebas automatizadas. |
-| `gerente_test` | `gerente_prod` | `tecda2026` / `password123` | Cuenta para pruebas automatizadas. |
+| `gerente` | `gerente_prod` | `gerente` | Gerente de producción (Admin). |
+| `vendedor` | `vendedor` | `vendedor` | Vendedor de showroom. |
+| `operario` | `operario` | `operario` | Operario de planta y montaje. |
 
 ---
 

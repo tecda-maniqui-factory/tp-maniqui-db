@@ -24,11 +24,6 @@ CREATE TABLE IF NOT EXISTS Usuarios (
 -- 3. Seed de Usuarios (Password de ejemplo: 'tecda2026')
 -- En producción, estas contraseñas deben ser hasheadas con bcrypt.
 INSERT IGNORE INTO Usuarios (username, password_hash, nombre_completo, email, rol) VALUES 
-('ventas_ana', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Ana Vendedora', 'ana@tecda.com', 'vendedor'),
-('vendedor_test', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Usuario Test Vendedor', 'vendedor_test@tecda.com', 'vendedor'),
-('gerente_test', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Usuario Test Gerente', 'gerente_test@tecda.com', 'gerente_prod'),
-('vendedor_1', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Vendedor Junior 1', 'vendedor1@tecda.com', 'vendedor'),
-('gerente_1', '$2b$10$bVQAwBYFPSQKygpj6bPIB.51oO67kjcNl18xKAwGtGcFPBVkrxHzS', 'Gerente Planta 1', 'gerente1@tecda.com', 'gerente_prod'),
 ('gerente', '$2b$10$bLr96VfPwttBRohtEmh9Te4NqYK3gfl1E7L3zeKYrImLU7ruWVbka', 'Gerente Simplificado', 'gerente@tecda.com', 'gerente_prod'),
 ('vendedor', '$2b$10$ONw/7rrdJL9/bq2xK6WEXufWxuTlswPanrY.onp1BWS07cGtaS4RO', 'Vendedor Simplificado', 'vendedor@tecda.com', 'vendedor'),
 ('operario', '$2b$10$JmPhykJ8G6l37DQnDGIcf.Hg9/mM6ZeMdrSI5cV3yN19kO.3mPcxG', 'Operario Simplificado', 'operario@tecda.com', 'operario');
