@@ -27,22 +27,25 @@ docker compose up -d
 ```
 
 ### Paso 2: Importar la estructura y los datos
-Ejecuta la secuencia de scripts para estructurar la base de datos o importa la suite completa:
+Ejecuta el script maestro de configuración que cargará automáticamente todos los módulos en orden de dependencia:
 ```bash
-# Conectarse e importar los archivos desde el cliente de base de datos
-mysql -h 127.0.0.1 -P 3307 -u root -p tecda_maniqui < scripts/step1_schema.sql
-# ... (repetir para los siguientes pasos o ejecutar el script automatizado de setup)
+# Importar la base de datos completa utilizando el setup master
+mysql -h 127.0.0.1 -P 3307 -u root -p tecda_maniqui < scripts/main_setup.sql
 ```
 
 ---
 
 ## 📂 Estructura de Scripts (`/scripts`)
 
-* **`step1_schema.sql`**: Creación de tablas, catálogos y configuración de borrado lógico.
-* **`step2_triggers.sql`**: Triggers de generación de seriales y validación "Anti-Frankenstein" (reglas de ensamblaje).
-* **`step3_procedures.sql`**: Lógica de negocio (SP de Ensamblaje y funciones UDF de Descuentos).
-* **`step4_roles.sql`**: Gestión de Usuarios, privilegios y asignación de roles.
-* **`step5_audit.sql`**: Tablas de auditoría y facturación electrónica.
+* **`main_setup.sql`**: Script maestro de configuración que orquesta y ejecuta todos los archivos en orden.
+* **`step1_schema_and_catalogs.sql`**: Creación de tablas, relaciones y catálogos estáticos.
+* **`step2_triggers_and_automation.sql`**: Automatización de folios de auditoría y validación "Anti-Frankenstein".
+* **`step3_logic_sp_and_functions.sql`**: Lógica transaccional (SP `EnsamblarManiqui` y funciones UDF).
+* **`step4_user_management.sql`**: Configuración de seguridad, roles, usuarios y permisos.
+* **`step5_enterprise_features.sql`**: Gestión de auditorías avanzadas y facturación electrónica.
+* **`step6_supply_and_logistics.sql`**: Módulo de abastecimiento, proveedores y órdenes de compra.
+* **`step7_quality_and_settings.sql`**: Control de calidad de piezas y configuraciones operativas.
+* **`seed_data_v2.sql`**: Carga de datos de prueba para validación y desarrollo.
 
 ---
 
